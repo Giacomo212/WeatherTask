@@ -5,47 +5,47 @@
 @using System.Reflection
 @inject WeatherForecastService ForecastService
 
-<h1>Weather forecast</h1>
+    <div class="main-div">
+<div>
+    
+    <div class="input-group mb-3">
+      <input @bind="@Input" type="text" class="form-control" placeholder="City">
+      <div class="input-group-append">
+           <button @onclick="SearchOnClick"  type="button" class="btn btn-primary" >Search</button>
+      </div>
+    </div>
+</div>
 
-<p>This component demonstrates fetching data from a service.</p>
-
-@if (forecasts == null)
+@if (forecast == null)
 {
     <p>
-        <em>Loading...</em>
+        <em>Can't fetch info</em>
     </p>
 }
 else
 {
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var forecast in forecasts)
-        {
-            <tr>
-                <td>@forecast.City</td>
-                <td>@forecast.Temperature</td>
-                <td>@forecast.Summary</td>
-            </tr>
-        }
-        </tbody>
-    </table>
+
+    <div><h1 class="city"> @forecast.City</h1></div>
+        <div><p>@forecast.Summary</p></div>
+        <div><img src="http://openweathermap.org/img/wn/@forecast.ImageName@@2x.png"/></div>
+    <div><h3>@forecast.Temperature°C</h3></div>
+    
+    
+    
 }
-
+</div>
 @code {
-    private WeatherForecast[] forecasts;
-
+    
+    private WeatherForecast forecast;
+    private string Input { get; set; }
     protected override async Task OnInitializedAsync()
     {
-          forecasts = await ForecastService.GetForecastAsync();
+          forecast = await ForecastService.GetForecastAsync(Input);
         
+    }
+    
+    private async Task SearchOnClick(){
+        forecast = await ForecastService.GetForecastAsync(Input);
     }
 
 }

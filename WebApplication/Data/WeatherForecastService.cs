@@ -8,26 +8,26 @@ namespace WebApplication.Data
 {
     public class WeatherForecastService
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        public async Task<WeatherForecast[]> GetForecastAsync()
-        {
-            var assembly = Assembly.LoadFrom("./plugin/OpenWeatherPlugin.dll") ;
-            foreach (var attribute in assembly.GetCustomAttributes(true)){
-                if (attribute is WeatherBuilderAttribute forecastCreator){
+      
+        public async Task<WeatherForecast> GetForecastAsync(string city){
+            
+            if (string.IsNullOrEmpty(city))
+                city = "pszczyna";
+            try{
+                var assembly = Assembly.LoadFrom("./plugin/net5.0/OpenWeatherPlugin.dll") ;
+                foreach (var attribute in assembly.GetCustomAttributes(true)){
+                    if (attribute is not WeatherTaskAttribute forecastCreator) continue;
                     var type = forecastCreator.Type;
                     var weatherCreator = Activator.CreateInstance(type);
-                    if (weatherCreator is IWeatherForecastCreating weatherForecastCreating){
-                        var task = weatherForecastCreating.GetWeatherAsync( "pszczyna");
-                        var result = await task;
-                        return new[]{result};
-                    }
+                    if (weatherCreator is not IGetWeatherTask weatherForecastCreating) continue;
+                    var task = weatherForecastCreating.GetWeatherAsync( city.ToLower());
+                    var result = await task;
+                    return result;
                 }
             }
-
+            catch (Exception e){
+                return null;
+            }
             return null;
         }
     }

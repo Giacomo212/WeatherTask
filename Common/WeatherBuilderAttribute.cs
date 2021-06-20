@@ -2,11 +2,11 @@ using System;
 namespace Common
 
 {
-    public class WeatherBuilderAttribute : Attribute
+    public class WeatherTaskAttribute : Attribute
     {
         public Type Type { get; private set; }
 
-        public WeatherBuilderAttribute(Type type)
+        public WeatherTaskAttribute(Type type)
         {
             Type = type;
         }

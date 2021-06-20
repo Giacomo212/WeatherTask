@@ -4,16 +4,18 @@ namespace Common
 {
     public class WeatherForecast
     {
-        public WeatherForecast(string city, string temperature, string summary){
+        public WeatherForecast(string city, string temperature, string summary, string imageName){
             City = city;
             Temperature = temperature;
             Summary = summary;
+            ImageName = imageName;
         }
 
-        public string City { get; set; }
+        public string ImageName{ get; private set; }
+        public string City { get; private set; }
 
-        public string Temperature { get; set; }
+        public string Temperature { get; private set; }
         
-        public string Summary { get; set; }
+        public string Summary { get; private set; }
     }
 }

@@ -48,3 +48,18 @@ a, .btn-link {
         right: 0.75rem;
         top: 0.5rem;
     }
+    .city{
+        text-transform: capitalize;
+        
+    }
+    .main-div{
+        display: flex;
+        /*justify-content: center;
+        align-items: center;
+        flex-flow: wrap;*/
+        text-align: center;
+        flex-direction: column;
+        margin-top: 2em;
+       
+    }
+    

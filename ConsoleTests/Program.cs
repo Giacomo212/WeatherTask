@@ -13,10 +13,10 @@ namespace ConsoleTest{
             
             var assembly = Assembly.LoadFrom("./plugin/OpenWeatherPlugin.dll") ;
             foreach (var attribute in assembly.GetCustomAttributes(true)){
-                if (attribute is WeatherBuilderAttribute forecastCreator){
+                if (attribute is WeatherTaskAttribute forecastCreator){
                     var type = forecastCreator.Type;
                     var weatherCreator = Activator.CreateInstance(type);
-                    if (weatherCreator is IWeatherForecastCreating weatherForecastCreating){
+                    if (weatherCreator is IGetWeatherTask weatherForecastCreating){
                         var task = weatherForecastCreating.GetWeatherAsync( "pszczyna");
                         var result = await task;
                         Console.WriteLine("The weather in {0} is {1}, temperature {2}",result.City,result.Summary,result.Temperature);
