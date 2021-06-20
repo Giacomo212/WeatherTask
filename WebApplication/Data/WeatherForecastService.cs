@@ -25,7 +25,7 @@ namespace WebApplication.Data
                     return result;
                 }
             }
-            catch (Exception e){
+            catch{
                 return null;
             }
             return null;
